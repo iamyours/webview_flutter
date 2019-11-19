@@ -6,8 +6,6 @@ package io.flutter.plugins.webviewflutter;
 
 import android.annotation.TargetApi;
 import android.os.Build;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.webkit.WebResourceRequest;
@@ -19,11 +17,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.webkit.WebViewClientCompat;
 
-import io.flutter.plugin.common.MethodChannel;
-
-import java.io.ByteArrayInputStream;
 import java.util.HashMap;
 import java.util.Map;
+
+import io.flutter.plugin.common.MethodChannel;
 
 // We need to use WebViewClientCompat to get
 // shouldOverrideUrlLoading(WebView view, WebResourceRequest request)
@@ -81,56 +78,8 @@ class FlutterWebViewClient {
         methodChannel.invokeMethod("onPageFinished", args);
     }
 
-    Object lock = new Object();
-    WebResourceResponse res;
-    Handler mainHandler = new Handler(Looper.getMainLooper());
-
     private WebResourceResponse shouldInterceptRequest(WebView view, final String url) {
-        mainHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                methodChannel.invokeMethod("shouldInterceptRequest", url, new MethodChannel.Result() {
-                    @Override
-                    public void success(Object o) {
-                        if (o instanceof Map) {
-                            Map<String, Object> map = (Map<String, Object>) o;
-                            byte[] bytes = (byte[]) map.get("data");
-                            String type = (String) map.get("type");
-                            String encode = (String) map.get("encode");
-                            res = new WebResourceResponse(type, encode, new ByteArrayInputStream(bytes));
-                        }
-                        synchronized (lock) {
-                            lock.notifyAll();
-                        }
-                    }
-
-                    @Override
-                    public void error(String s, String s1, Object o) {
-                        res = null;
-                        synchronized (lock) {
-                            lock.notifyAll();
-                        }
-                    }
-
-                    @Override
-                    public void notImplemented() {
-                        res = null;
-                        synchronized (lock) {
-                            lock.notifyAll();
-                        }
-                    }
-                });
-
-            }
-        });
-        synchronized (lock) {
-            try {
-                lock.wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        return res;
+        return new SyncExecutor().getResponse(methodChannel,url);
     }
 
     private void notifyOnNavigationRequest(
