@@ -54,8 +54,7 @@ class _WebViewExampleState extends State<WebViewExample> {
       body: Builder(builder: (BuildContext context) {
         return Column(
           children: <Widget>[
-            Container(
-              height: 300,
+            Expanded(
               child: Stack(
                 children: <Widget>[
                   WebView(
@@ -83,6 +82,7 @@ class _WebViewExampleState extends State<WebViewExample> {
                     },
                     shouldInterceptRequest: (String url) async {//替换google logo
                       var googleLogo = "https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_160x56dp.png";
+
                       if (url == googleLogo) {
                         ByteData data = await rootBundle.load("assets/baidu.png");
                         Uint8List bytes = Uint8List.view(data.buffer);
@@ -102,28 +102,7 @@ class _WebViewExampleState extends State<WebViewExample> {
                 ],
               )
             ),
-            Expanded(
-              child: Stack(
-                children: <Widget>[
-                  WebView(
-                    initialUrl: 'https://www.google.com',
-                    javascriptMode: JavascriptMode.unrestricted,
-                    debuggingEnabled: true,
-                    onPageFinished: (String url) {
-                      print('Page finished loading: $url');
-                    },
-                    onProgressChanged: (int p){
-                      setState(() {
-                        p2 = "$p%";
-                      });
-                    },
-                  ),
-                  Center(
-                    child: Text(p2),
-                  )
-                ],
-              )
-            )
+
           ],
         );
       }),

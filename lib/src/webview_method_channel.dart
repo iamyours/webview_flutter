@@ -24,7 +24,6 @@ class MethodChannelWebViewPlatform implements WebViewPlatformController {
   static const MethodChannel _cookieManagerChannel = MethodChannel('plugins.flutter.io/cookie_manager');
 
   Future<dynamic> _onMethodCall(MethodCall call) async {
-    print("method:${call.method}");
     switch (call.method) {
       case 'javascriptChannelMessage':
         final String channel = call.arguments['channel'];
