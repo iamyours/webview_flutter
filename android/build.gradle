@@ -1,4 +1,4 @@
-def PLUGIN = "webview_flutter";
+def PLUGIN = "iwebview_flutter";
 def ANDROIDX_WARNING = "flutterPluginsAndroidXWarning";
 gradle.buildFinished { buildResult ->
     if (buildResult.failure && !rootProject.ext.has(ANDROIDX_WARNING)) {
