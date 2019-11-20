@@ -251,6 +251,7 @@ class WebSettings {
 /// The `autoMediaPlaybackPolicy` parameter must not be null.
 class CreationParams {
   CreationParams({
+    this.backgroundColor,
     this.initialUrl,
     this.webSettings,
     this.javascriptChannelNames,
@@ -262,6 +263,8 @@ class CreationParams {
   ///
   /// When null the webview will be created without loading any page.
   final String initialUrl;
+
+  final Color backgroundColor;
 
   /// The initial [WebSettings] for the new webview.
   ///

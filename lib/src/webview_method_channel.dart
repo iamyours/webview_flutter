@@ -46,8 +46,8 @@ class MethodChannelWebViewPlatform implements WebViewPlatformController {
       case 'shouldInterceptRequest':
         String url = call.arguments;
         var response = await _platformCallbacksHandler.shouldInterceptRequest(url);
-        if(response!=null){
-          return {"data":response.data,"mineType":response.mineType,"encoding":response.encoding};
+        if (response != null) {
+          return {"data": response.data, "mineType": response.mineType, "encoding": response.encoding};
         }
         return null;
     }
@@ -149,6 +149,7 @@ class MethodChannelWebViewPlatform implements WebViewPlatformController {
   static Map<String, dynamic> creationParamsToMap(CreationParams creationParams) {
     return <String, dynamic>{
       'initialUrl': creationParams.initialUrl,
+      'backgroundColor': creationParams.backgroundColor?.value ?? 0xffffffff,
       'settings': _webSettingsToMap(creationParams.webSettings),
       'javascriptChannelNames': creationParams.javascriptChannelNames.toList(),
       'userAgent': creationParams.userAgent,

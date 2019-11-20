@@ -6,7 +6,7 @@
 #import "FLTWKNavigationDelegate.h"
 #import "JavaScriptChannelHandler.h"
 #import "FlutterInstance.h"
-
+#define UIColorFromARGB(argbValue) [UIColor colorWithRed:((float)((argbValue & 0xFF0000) >> 16))/255.0 green:((float)((argbValue & 0xFF00) >> 8))/255.0 blue:((float)(argbValue & 0xFF))/255.0 alpha:((float)((argbValue & 0xFF000000) >> 24))/255.0];
 @implementation FLTWebViewFactory {
   NSObject<FlutterBinaryMessenger>* _messenger;
 }
@@ -73,6 +73,7 @@
                         inConfiguration:configuration];
 
     _webView = [[WKWebView alloc] initWithFrame:frame configuration:configuration];
+      _webView.backgroundColor = UIColor.redColor;
     _navigationDelegate = [[FLTWKNavigationDelegate alloc] initWithChannel:_channel];
     _webView.navigationDelegate = _navigationDelegate;
       [_webView addObserver:self forKeyPath:@"estimatedProgress" options:NSKeyValueObservingOptionNew context:nil];
@@ -87,6 +88,13 @@
     // TODO(amirh): return an error if apply settings failed once it's possible to do so.
     // https://github.com/flutter/flutter/issues/36228
     NSString* initialUrl = args[@"initialUrl"];
+      NSNumber* bgColor = args[@"backgroundColor"];
+      if([bgColor isKindOfClass:[NSNumber class]]){
+          int color = bgColor.intValue;
+          [_webView setOpaque:false];
+          _webView.backgroundColor = UIColor.clearColor;
+          _webView.scrollView.backgroundColor = UIColorFromARGB(color);
+      }
     if ([initialUrl isKindOfClass:[NSString class]]) {
       [self loadUrl:initialUrl];
     }

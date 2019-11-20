@@ -149,6 +149,7 @@ class WebView extends StatefulWidget {
     Key key,
     this.onWebViewCreated,
     this.initialUrl,
+    this.backgroundColor,
     this.javascriptMode = JavascriptMode.disabled,
     this.javascriptChannels,
     this.navigationDelegate,
@@ -212,6 +213,8 @@ class WebView extends StatefulWidget {
 
   /// The initial URL to load.
   final String initialUrl;
+
+  final Color backgroundColor;
 
   /// Whether Javascript execution is enabled.
   final JavascriptMode javascriptMode;
@@ -375,6 +378,7 @@ class _WebViewState extends State<WebView> {
 
 CreationParams _creationParamsfromWidget(WebView widget) {
   return CreationParams(
+    backgroundColor: widget.backgroundColor,
     initialUrl: widget.initialUrl,
     webSettings: _webSettingsFromWidget(widget),
     javascriptChannelNames: _extractChannelNames(widget.javascriptChannels),

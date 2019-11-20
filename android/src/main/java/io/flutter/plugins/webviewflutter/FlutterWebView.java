@@ -66,7 +66,11 @@ public class FlutterWebView implements PlatformView, MethodCallHandler {
             String userAgent = (String) params.get("userAgent");
             updateUserAgent(userAgent);
         }
-
+        if (params.containsKey("backgroundColor")) {
+            long bgColor = (Long) params.get("backgroundColor");
+            int intColor = (int) bgColor;
+            webView.setBackgroundColor(intColor);
+        }
         //todo custom code
         webView.setWebChromeClient(new FlutterWebChromeClient(methodChannel));
         if (params.containsKey("initialUrl")) {
