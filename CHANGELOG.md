@@ -1,4 +1,8 @@
-## 0.1.0
+## 0.1.2
+
+update for ios.
+
+## 0.1.1
 
 delete logs.
 

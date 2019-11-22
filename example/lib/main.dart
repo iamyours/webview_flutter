@@ -58,7 +58,7 @@ class _WebViewExampleState extends State<WebViewExample> {
               child: Stack(
                 children: <Widget>[
                   WebView(
-                    initialUrl: 'https://www.google.com',
+                    initialUrl: 'https://wap.sogou.com/',
                     javascriptMode: JavascriptMode.unrestricted,
                     debuggingEnabled: true,
                     onWebViewCreated: (WebViewController webViewController) {
@@ -81,7 +81,7 @@ class _WebViewExampleState extends State<WebViewExample> {
                       print('Page finished loading: $url');
                     },
                     shouldInterceptRequest: (String url) async {//替换google logo
-                      var googleLogo = "https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_160x56dp.png";
+                      var googleLogo = "https://wap.sogou.com/resource/static/index/images/logo_new.6f31942.png";
 
                       if (url == googleLogo) {
                         ByteData data = await rootBundle.load("assets/baidu.png");
