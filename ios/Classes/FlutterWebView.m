@@ -76,7 +76,8 @@
       _webView.backgroundColor = UIColor.redColor;
     _navigationDelegate = [[FLTWKNavigationDelegate alloc] initWithChannel:_channel];
     _webView.navigationDelegate = _navigationDelegate;
-      [_webView addObserver:self forKeyPath:@"estimatedProgress" options:NSKeyValueObservingOptionNew context:nil];
+    [_webView addObserver:self forKeyPath:@"estimatedProgress" options:NSKeyValueObservingOptionNew context:nil];
+    [_webView.scrollView addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew context:nil];
     __weak __typeof__(self) weakSelf = self;
     [_channel setMethodCallHandler:^(FlutterMethodCall* call, FlutterResult result) {
       [weakSelf onMethodCall:call result:result];
@@ -109,11 +110,19 @@
             int progress =(int)(_webView.estimatedProgress*100);
             [_channel invokeMethod:@"onProgressChanged" arguments: [NSNumber numberWithInt:progress]];
         }
+    }else if ([keyPath isEqualToString:@"contentOffset"]) {
+        int x =(int)(_webView.scrollView.contentOffset.x);
+        int y =(int)(_webView.scrollView.contentOffset.y);
+        NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+        dic[@"x"] = [NSNumber numberWithInteger:x];
+        dic[@"y"] = [NSNumber numberWithInteger:y];
+        [_channel invokeMethod:@"onScroll" arguments: dic];
     }
 }
 
 - (void)dealloc {
     [_webView removeObserver:self forKeyPath:@"estimatedProgress"];
+    [_webView.scrollView removeObserver:self forKeyPath:@"contentOffset"];
     [FlutterInstance removeChannel:_viewId];
     NSLog(@"delloc...");
 }

@@ -30,6 +30,8 @@ abstract class WebViewPlatformCallbacksHandler {
   Future<Response> shouldInterceptRequest(String url);
 
   void onProgressChanged(int progress);
+
+  void onScroll(int x,int y);
 }
 
 /// Interface for talking to the webview's platform implementation.

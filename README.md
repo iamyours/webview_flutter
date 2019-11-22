@@ -1,14 +1,17 @@
 # WebView for flutter
 
-基于flutter官方WebView开发，新增`backgroundColor`属性,`onProgressChanged`,`shouldInterceptRequest`方法。
-使用方法：
-引入库
+Base on [webview_flutter](https://pub.dev/packages/webview_flutter), add some new features.
+- backgroundColor
+- onProgressChanged
+- shouldInterceptRequest: intercept request and load resource from local.
+- onScroll: listen webview scroll.
+
+### how to use
 ```
 dependencies:
-  iwebview_flutter: ^0.1.1
+  iwebview_flutter: ^latest version
 ```
 
-添加拦截监听
 ``` dart
 WebView(
       initialUrl: "https://www.google.com",
@@ -19,8 +22,11 @@ WebView(
           progress = p/100.0;
         });
       },
+      onScroll(int x,int y){
+
+      },
       backgroundColor: Colors.red,
-      shouldInterceptRequest: (String url) async {//替换google logo
+      shouldInterceptRequest: (String url) async {//replace google logo
         var googleLogo = "https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_160x56dp.png";
         print("============url:$url");
         if (url == googleLogo) {

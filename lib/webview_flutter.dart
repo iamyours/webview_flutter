@@ -86,6 +86,7 @@ typedef void PageFinishedCallback(String url);
 typedef Future<Response> ShouldInterceptRequestCallback(String url);
 
 typedef void ProgressChangedCallback(int progress);
+typedef void OnScrollCallback(int x,int y);
 
 /// Specifies possible restrictions on automatic media playback.
 ///
@@ -157,6 +158,7 @@ class WebView extends StatefulWidget {
     this.onPageFinished,
     this.shouldInterceptRequest,
     this.onProgressChanged,
+    this.onScroll,
     this.debuggingEnabled = false,
     this.userAgent,
     this.initialMediaPlaybackPolicy = AutoMediaPlaybackPolicy.require_user_action_for_all_media_types,
@@ -287,6 +289,8 @@ class WebView extends StatefulWidget {
   final ShouldInterceptRequestCallback shouldInterceptRequest;
 
   final ProgressChangedCallback onProgressChanged;
+
+  final OnScrollCallback onScroll;
 
   /// Controls whether WebView debugging is enabled.
   ///
@@ -493,6 +497,13 @@ class _PlatformCallbacksHandler implements WebViewPlatformCallbacksHandler {
   void onProgressChanged(int progress) {
     if(_widget.onProgressChanged!=null){
       _widget.onProgressChanged(progress);
+    }
+  }
+
+  @override
+  void onScroll(int x, int y) {
+    if(_widget.onScroll!=null){
+      _widget.onScroll(x,y);
     }
   }
 }

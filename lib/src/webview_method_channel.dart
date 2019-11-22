@@ -49,6 +49,12 @@ class MethodChannelWebViewPlatform implements WebViewPlatformController {
           return {"data": response.data, "mineType": response.mineType, "encoding": response.encoding};
         }
         return null;
+      case 'onScroll':
+        var arg = call.arguments;
+        int x = arg['x'];
+        int y = arg['y'];
+        _platformCallbacksHandler.onScroll(x, y);
+        return null;
     }
     throw MissingPluginException('${call.method} was invoked but has no handler');
   }

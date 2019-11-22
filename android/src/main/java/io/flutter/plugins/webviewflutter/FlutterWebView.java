@@ -21,6 +21,7 @@ import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.plugin.platform.PlatformView;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -67,12 +68,20 @@ public class FlutterWebView implements PlatformView, MethodCallHandler {
             updateUserAgent(userAgent);
         }
         if (params.containsKey("backgroundColor")) {
-            long bgColor = (Long) params.get("backgroundColor");
+            Number bgColor = (Number) params.get("backgroundColor");
             int intColor = (int) bgColor;
             webView.setBackgroundColor(intColor);
         }
-        //todo custom code
         webView.setWebChromeClient(new FlutterWebChromeClient(methodChannel));
+        webView.setOnScrollChangedListener(new InputAwareWebView.OnScrollChangedListener() {
+            @Override
+            public void onScroll(int x, int y) {
+                Map<String, Object> map = new HashMap<>();
+                map.put("x", x);
+                map.put("y", y);
+                methodChannel.invokeMethod("onScroll", map);
+            }
+        });
         if (params.containsKey("initialUrl")) {
             String url = (String) params.get("initialUrl");
             webView.loadUrl(url);
