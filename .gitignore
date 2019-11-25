@@ -7,11 +7,13 @@
 build/
 android/build
 android/.idea
+android/*.iml
 android/.gradle
 example/.idea
 example/build
 example/android/.gradle
 example/android/*.iml
+example/android/app/*.iml
 example/ios/.symlinks
 android/*.xml
 .idea/

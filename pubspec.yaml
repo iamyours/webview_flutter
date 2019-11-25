@@ -1,6 +1,6 @@
 name: iwebview_flutter
 description: A webview plugin develop from webview_flutter,add shouldInterceptRequest,onProgressChanged,onScroll...
-version: 0.1.3
+version: 0.1.4
 author: iamyours <roger2015yxx@gmail.com>
 homepage: https://github.com/iamyours/webview_flutter
 

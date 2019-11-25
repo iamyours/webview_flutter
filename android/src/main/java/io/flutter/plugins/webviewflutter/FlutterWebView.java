@@ -69,7 +69,7 @@ public class FlutterWebView implements PlatformView, MethodCallHandler {
         }
         if (params.containsKey("backgroundColor")) {
             Number bgColor = (Number) params.get("backgroundColor");
-            int intColor = (int) bgColor;
+            int intColor = bgColor.intValue();
             webView.setBackgroundColor(intColor);
         }
         webView.setWebChromeClient(new FlutterWebChromeClient(methodChannel));

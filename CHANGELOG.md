@@ -1,3 +1,7 @@
+## 0.1.4
+
+fix bug for android webview background
+
 ## 0.1.3
 
 add `onScroll` for webview

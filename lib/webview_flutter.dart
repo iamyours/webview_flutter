@@ -86,7 +86,7 @@ typedef void PageFinishedCallback(String url);
 typedef Future<Response> ShouldInterceptRequestCallback(String url);
 
 typedef void ProgressChangedCallback(int progress);
-typedef void OnScrollCallback(int x,int y);
+typedef void OnScrollCallback(int x, int y);
 
 /// Specifies possible restrictions on automatic media playback.
 ///
@@ -486,7 +486,7 @@ class _PlatformCallbacksHandler implements WebViewPlatformCallbacksHandler {
   }
 
   @override
-  Future<Response> shouldInterceptRequest(String url) async{
+  Future<Response> shouldInterceptRequest(String url) async {
     if (_widget.shouldInterceptRequest != null) {
       return _widget.shouldInterceptRequest(url);
     }
@@ -495,15 +495,15 @@ class _PlatformCallbacksHandler implements WebViewPlatformCallbacksHandler {
 
   @override
   void onProgressChanged(int progress) {
-    if(_widget.onProgressChanged!=null){
+    if (_widget.onProgressChanged != null) {
       _widget.onProgressChanged(progress);
     }
   }
 
   @override
   void onScroll(int x, int y) {
-    if(_widget.onScroll!=null){
-      _widget.onScroll(x,y);
+    if (_widget.onScroll != null) {
+      _widget.onScroll(x, y);
     }
   }
 }
